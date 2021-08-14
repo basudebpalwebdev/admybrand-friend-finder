@@ -9,6 +9,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// ShowAccount godoc
+// @Summary List users
+// @Description Get a paginated list of users
+// @ID get-string-by-int
+// @Accept  json
+// @Produce  json
+// @Param limit path int false "limit"
+// @Param page_no path int false "page_no"
+// @Success 200 {object} db.User
+// @Header 200 {string} Token "qwerty"
+// @Router /users [get]
 func ListUsers(c *fiber.Ctx) error {
 	pageNo, err := strconv.Atoi(c.Query("page_no", "1"))
 	if err != nil {

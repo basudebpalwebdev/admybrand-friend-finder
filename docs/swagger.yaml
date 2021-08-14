@@ -1,0 +1,58 @@
+basePath: /
+definitions:
+  db.User:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      dob:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+host: localhost:9999
+info:
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: This is a sample swagger for Friend Finder
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Friend Finder API
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of users
+      operationId: get-string-by-int
+      parameters:
+      - description: limit
+        in: path
+        name: limit
+        type: integer
+      - description: page_no
+        in: path
+        name: page_no
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Token:
+              description: qwerty
+              type: string
+          schema:
+            $ref: '#/definitions/db.User'
+      summary: List users
+swagger: "2.0"
