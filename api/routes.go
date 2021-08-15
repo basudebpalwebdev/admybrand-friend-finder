@@ -7,19 +7,19 @@ import (
 )
 
 func (server *Server) RouteSetup() {
-	server.api.Get("/", func(c *fiber.Ctx) error {
+	server.App.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
-	server.api.Get("/swagger/*", swagger.New(swagger.Config{ // custom
+	server.App.Get("/swagger/*", swagger.New(swagger.Config{ // custom
 		URL:         "/swagger/doc.json",
 		DeepLinking: false,
 		// Expand ("list") or Collapse ("none") tag groups by default
 		DocExpansion: "none",
 	}))
-	server.api.Get("/users", handlers.ListUsers)
-	server.api.Get("/users/:id", handlers.GetUser)
-	server.api.Get("/users/find/:username", handlers.FindUserByUsername)
-	server.api.Post("/users", handlers.CreateNewUser)
-	server.api.Put("/users/:id", handlers.UpdateUser)
-	server.api.Delete("users/:id", handlers.DeleteUser)
+	server.App.Get("/users", handlers.ListUsers)
+	server.App.Get("/users/:id", handlers.GetUser)
+	server.App.Get("/users/find/:username", handlers.FindUserByUsername)
+	server.App.Post("/users", handlers.CreateNewUser)
+	server.App.Put("/users/:id", handlers.UpdateUser)
+	server.App.Delete("users/:id", handlers.DeleteUser)
 }

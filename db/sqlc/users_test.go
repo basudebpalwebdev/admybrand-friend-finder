@@ -1,4 +1,4 @@
-package db
+package db_test
 
 import (
 	"context"
@@ -6,11 +6,12 @@ import (
 	"testing"
 	"time"
 
+	db "github.com/basudebpalwebdev/admybrand-friend-finder/db/sqlc"
 	"github.com/stretchr/testify/require"
 )
 
 func TestCreateUser(t *testing.T) {
-	arg := CreateUserParams{
+	arg := db.CreateUserParams{
 		Username:    "test.create.user",
 		Description: "Test user creation",
 		Dob:         time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC),
@@ -30,7 +31,7 @@ func TestCreateUser(t *testing.T) {
 
 func TestListUsers(t *testing.T) {
 	for i := 0; i < 20; i++ {
-		arg := CreateUserParams{
+		arg := db.CreateUserParams{
 			Username:    "test.list.user." + fmt.Sprintf("%d", i),
 			Description: "Test user#" + fmt.Sprintf("%d", i) + " list",
 			Dob:         time.Date(2000-i, time.January, 1, 0, 0, 0, 0, time.UTC),
@@ -45,7 +46,7 @@ func TestListUsers(t *testing.T) {
 	}
 
 	// Checking for normal args
-	userList, listErr := testQueries.ListUsers(context.Background(), ListUsersParams{
+	userList, listErr := testQueries.ListUsers(context.Background(), db.ListUsersParams{
 		Limit:  10,
 		Offset: 0,
 	})
@@ -53,7 +54,7 @@ func TestListUsers(t *testing.T) {
 	require.Equal(t, 10, len(userList))
 
 	// Checking for invalid limit
-	userList, listErr = testQueries.ListUsers(context.Background(), ListUsersParams{
+	userList, listErr = testQueries.ListUsers(context.Background(), db.ListUsersParams{
 		Limit:  -1,
 		Offset: 0,
 	})
@@ -61,7 +62,7 @@ func TestListUsers(t *testing.T) {
 	require.Empty(t, userList)
 
 	// Checking for invalid offset
-	userList, listErr = testQueries.ListUsers(context.Background(), ListUsersParams{
+	userList, listErr = testQueries.ListUsers(context.Background(), db.ListUsersParams{
 		Limit:  1,
 		Offset: -1,
 	})
@@ -69,7 +70,7 @@ func TestListUsers(t *testing.T) {
 	require.Empty(t, userList)
 
 	// Checking for large offset value (bigger than total user count)
-	userList, listErr = testQueries.ListUsers(context.Background(), ListUsersParams{
+	userList, listErr = testQueries.ListUsers(context.Background(), db.ListUsersParams{
 		Limit:  1,
 		Offset: 100000,
 	})
@@ -78,7 +79,7 @@ func TestListUsers(t *testing.T) {
 }
 
 func TestUpdateUserDetails(t *testing.T) {
-	arg := CreateUserParams{
+	arg := db.CreateUserParams{
 		Username:    "test.update.user",
 		Description: "Test user update",
 		Dob:         time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC),
@@ -91,7 +92,7 @@ func TestUpdateUserDetails(t *testing.T) {
 	require.NotEmpty(t, createdUser)
 	require.NotZero(t, createdUser.ID)
 
-	updateArgs := UpdateUserDetailsParams{
+	updateArgs := db.UpdateUserDetailsParams{
 		ID:          createdUser.ID,
 		Description: "Updated test user",
 		Dob:         arg.Dob.AddDate(1, 1, 1),
@@ -106,7 +107,7 @@ func TestUpdateUserDetails(t *testing.T) {
 	require.Equal(t, updateArgs.Dob, updatedUser.Dob)
 
 	// Checking for invalid ID
-	updatedUser, updErr = testQueries.UpdateUserDetails(context.Background(), UpdateUserDetailsParams{
+	updatedUser, updErr = testQueries.UpdateUserDetails(context.Background(), db.UpdateUserDetailsParams{
 		ID:          -1,
 		Description: "lorem",
 	})
@@ -115,7 +116,7 @@ func TestUpdateUserDetails(t *testing.T) {
 }
 
 func TestGetUser(t *testing.T) {
-	arg := CreateUserParams{
+	arg := db.CreateUserParams{
 		Username:    "test.get.user",
 		Description: "Test get user",
 		Dob:         time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC),
@@ -146,7 +147,7 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestFindUserByUsername(t *testing.T) {
-	arg := CreateUserParams{
+	arg := db.CreateUserParams{
 		Username:    "test.find.user",
 		Description: "Test find user",
 		Dob:         time.Date(2006, time.January, 1, 0, 0, 0, 0, time.UTC),
@@ -175,7 +176,7 @@ func TestFindUserByUsername(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	arg := CreateUserParams{
+	arg := db.CreateUserParams{
 		Username:    "test.delete.user",
 		Description: "Test delete user",
 		Dob:         time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC),

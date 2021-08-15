@@ -10,25 +10,25 @@ import (
 )
 
 type Server struct {
-	api   *fiber.App
+	App   *fiber.App
 	store db.Store
 }
 
 func NewServer(dbConn *sql.DB) *Server {
 	store := db.NewStore(dbConn)
 	server := &Server{
-		api:   fiber.New(),
+		App:   fiber.New(),
 		store: store,
 	}
 	dbconn.DBConn = dbConn
 	dbconn.DBQueries = db.New(dbconn.DBConn)
-	server.api.Use(logger.New())
+	server.App.Use(logger.New())
 	server.RouteSetup()
 	return server
 }
 func (server *Server) Start(address string) error {
-	return server.api.Listen(address)
+	return server.App.Listen(address)
 }
 func (server *Server) Stop() error {
-	return server.api.Shutdown()
+	return server.App.Shutdown()
 }

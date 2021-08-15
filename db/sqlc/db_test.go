@@ -1,4 +1,4 @@
-package db
+package db_test
 
 import (
 	"database/sql"
@@ -6,11 +6,12 @@ import (
 	"os"
 	"testing"
 
+	db "github.com/basudebpalwebdev/admybrand-friend-finder/db/sqlc"
 	_ "github.com/lib/pq"
 )
 
 var (
-	testQueries *Queries
+	testQueries *db.Queries
 	testDB      *sql.DB
 )
 
@@ -20,6 +21,6 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal("Cannot connect to the database :", err)
 	}
-	testQueries = New(testDB)
+	testQueries = db.New(testDB)
 	os.Exit(m.Run())
 }
