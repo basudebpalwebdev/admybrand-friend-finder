@@ -33,7 +33,6 @@ paths:
       consumes:
       - application/json
       description: Get a paginated list of users
-      operationId: get-string-by-int
       parameters:
       - description: limit
         in: path
@@ -58,27 +57,96 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create a new user
-      operationId: get-string-by-int
+      description: Update a new user
       parameters:
-      - description: Please enter your desired username
+      - description: Enter the id
         in: path
-        name: username
+        name: id
         required: true
         type: string
-      - description: Please describe yourself
-        in: path
+      - description: Update description
+        in: body
         name: description
         required: true
-        type: string
-      - description: Please enter your date of birth
-        in: path
+        schema:
+          type: string
+      - description: Update date of birth(yyyy-mm-dd)
+        in: body
         name: dob
         required: true
-        type: string
-      - description: Please enter your address
-        in: path
+        schema:
+          type: string
+      - description: Update address
+        in: body
         name: address
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Token:
+              description: qwerty
+              type: string
+          schema:
+            $ref: '#/definitions/db.User'
+      summary: Update new users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an user by ID
+      parameters:
+      - description: Please enter the id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Token:
+              description: qwerty
+              type: string
+          schema:
+            type: string
+      summary: Delete an user by ID
+    get:
+      consumes:
+      - application/json
+      description: Get an user by ID
+      parameters:
+      - description: Please enter the id
+        in: path
+        name: id
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Token:
+              description: qwerty
+              type: string
+          schema:
+            $ref: '#/definitions/db.User'
+      summary: Get an user by ID
+  /users/find/{username}:
+    get:
+      consumes:
+      - application/json
+      description: Find an user by Username
+      parameters:
+      - description: Please enter the username
+        in: path
+        name: username
         required: true
         type: string
       produces:
@@ -92,5 +160,5 @@ paths:
               type: string
           schema:
             $ref: '#/definitions/db.User'
-      summary: Create new users
+      summary: Find an user by Username
 swagger: "2.0"

@@ -6,6 +6,7 @@ import (
 	"github.com/basudebpalwebdev/admybrand-friend-finder/api/dbconn"
 	db "github.com/basudebpalwebdev/admybrand-friend-finder/db/sqlc"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 type Server struct {
@@ -21,6 +22,7 @@ func NewServer(dbConn *sql.DB) *Server {
 	}
 	dbconn.DBConn = dbConn
 	dbconn.DBQueries = db.New(dbconn.DBConn)
+	server.api.Use(logger.New())
 	server.RouteSetup()
 	return server
 }

@@ -16,7 +16,6 @@ import (
 // ListUsers godoc
 // @Summary List users
 // @Description Get a paginated list of users
-// @ID get-string-by-int
 // @Accept  json
 // @Produce  json
 // @Param limit path int false "limit"
@@ -55,10 +54,10 @@ func ListUsers(c *fiber.Ctx) error {
 // @ID get-string-by-int
 // @Accept  json
 // @Produce  json
-// @Param username path string true "Please enter your desired username"
-// @Param description path string true "Please describe yourself"
-// @Param dob path string true "Please enter your date of birth(yyyy-mm-dd)"
-// @Param address path string true "Please enter your address"
+// @Param username body string true "Please enter your desired username"
+// @Param description body string true "Please describe yourself"
+// @Param dob body string true "Please enter your date of birth(yyyy-mm-dd)"
+// @Param address body string true "Please enter your address"
 // @Success 200 {object} db.User
 // @Header 200 {string} Token "qwerty"
 // @Router /users [post]
@@ -103,13 +102,12 @@ func CreateNewUser(c *fiber.Ctx) error {
 // GetUser godoc
 // @Summary Get an user by ID
 // @Description Get an user by ID
-// @ID get-string-by-int
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Please enter the id"
+// @Param id path number false "Please enter the id"
 // @Success 200 {object} db.User
 // @Header 200 {string} Token "qwerty"
-// @Router /users/:id [get]
+// @Router /users/{id} [get]
 func GetUser(c *fiber.Ctx) error {
 	userIDStr := c.Params("id")
 	userID, err := strconv.ParseInt(userIDStr, 10, 64)
@@ -126,15 +124,14 @@ func GetUser(c *fiber.Ctx) error {
 // FindUserByUsername godoc
 // @Summary Find an user by Username
 // @Description Find an user by Username
-// @username get-string-by-int
 // @Accept  json
 // @Produce  json
 // @Param username path string true "Please enter the username"
 // @Success 200 {object} db.User
 // @Header 200 {string} Token "qwerty"
-// @Router /users/:username [get]
+// @Router /users/find/{username} [get]
 func FindUserByUsername(c *fiber.Ctx) error {
-	username := c.Params("id")
+	username := c.Params("username")
 
 	foundUser, getErr := dbconn.DBQueries.FindUserByUsername(context.Background(), username)
 	if getErr != nil {
@@ -146,13 +143,12 @@ func FindUserByUsername(c *fiber.Ctx) error {
 // UpdateNewUser godoc
 // @Summary Update new users
 // @Description Update a new user
-// @ID get-string-by-int
 // @Accept  json
 // @Produce  json
 // @Param id path string true "Enter the id"
-// @Param description path string true "Update description"
-// @Param dob path string true "Update date of birth(yyyy-mm-dd)"
-// @Param address path string true "Update address"
+// @Param description body string true "Update description"
+// @Param dob body string true "Update date of birth(yyyy-mm-dd)"
+// @Param address body string true "Update address"
 // @Success 200 {object} db.User
 // @Header 200 {string} Token "qwerty"
 // @Router /users [post]
@@ -210,13 +206,12 @@ func convertDate(dob string, c *fiber.Ctx) (time.Time, bool) {
 // DeleteUser godoc
 // @Summary Delete an user by ID
 // @Description Delete an user by ID
-// @ID get-string-by-int
 // @Accept  json
 // @Produce  json
 // @Param id path string true "Please enter the id"
 // @Success 200 {object} string
 // @Header 200 {string} Token "qwerty"
-// @Router /users/:id [delete]
+// @Router /users/{id} [delete]
 func DeleteUser(c *fiber.Ctx) error {
 	userIDStr := c.Params("id")
 	userID, err := strconv.ParseInt(userIDStr, 10, 64)

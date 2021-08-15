@@ -41,7 +41,6 @@ var doc = `{
                     "application/json"
                 ],
                 "summary": "List users",
-                "operationId": "get-string-by-int",
                 "parameters": [
                     {
                         "type": "integer",
@@ -72,41 +71,81 @@ var doc = `{
                 }
             },
             "post": {
-                "description": "Create a new user",
+                "description": "Update a new user",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Create new users",
-                "operationId": "get-string-by-int",
+                "summary": "Update new users",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Please enter your desired username",
-                        "name": "username",
+                        "description": "Enter the id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Please describe yourself",
+                        "description": "Update description",
                         "name": "description",
-                        "in": "path",
-                        "required": true
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "type": "string",
-                        "description": "Please enter your date of birth",
+                        "description": "Update date of birth(yyyy-mm-dd)",
                         "name": "dob",
-                        "in": "path",
-                        "required": true
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "type": "string",
-                        "description": "Please enter your address",
+                        "description": "Update address",
                         "name": "address",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/db.User"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/find/{username}": {
+            "get": {
+                "description": "Find an user by Username",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Find an user by Username",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Please enter the username",
+                        "name": "username",
                         "in": "path",
                         "required": true
                     }
@@ -116,6 +155,73 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/db.User"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "Get an user by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get an user by ID",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "Please enter the id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/db.User"
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an user by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete an user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Please enter the id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
                         },
                         "headers": {
                             "Token": {
