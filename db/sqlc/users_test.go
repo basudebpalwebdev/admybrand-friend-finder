@@ -128,6 +128,7 @@ func TestGetUser(t *testing.T) {
 	require.NotEmpty(t, createdUser)
 	require.NotZero(t, createdUser.ID)
 
+	// Checking for valid ID
 	foundUser, getErr := testQueries.GetUser(context.Background(), createdUser.ID)
 	require.NoError(t, getErr)
 	require.NotEmpty(t, foundUser)
@@ -187,11 +188,17 @@ func TestDeleteUser(t *testing.T) {
 	require.NotEmpty(t, createdUser)
 	require.NotZero(t, createdUser.ID)
 
-	delErr := testQueries.DeleteUser(context.Background(), createdUser.ID)
+	delUser, delErr := testQueries.DeleteUser(context.Background(), createdUser.ID)
 	require.NoError(t, delErr)
+	require.NotEmpty(t, delUser)
 
 	// Checking for user with deleted ID
 	foundUser, getErr := testQueries.GetUser(context.Background(), createdUser.ID)
 	require.Error(t, getErr)
 	require.Empty(t, foundUser)
+
+	// Checking for invalid id
+	delUser, delErr = testQueries.DeleteUser(context.Background(), -1)
+	require.Error(t, delErr)
+	require.Empty(t, delUser)
 }

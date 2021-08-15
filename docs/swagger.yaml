@@ -55,4 +55,42 @@ paths:
           schema:
             $ref: '#/definitions/db.User'
       summary: List users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      operationId: get-string-by-int
+      parameters:
+      - description: Please enter your desired username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Please describe yourself
+        in: path
+        name: description
+        required: true
+        type: string
+      - description: Please enter your date of birth
+        in: path
+        name: dob
+        required: true
+        type: string
+      - description: Please enter your address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Token:
+              description: qwerty
+              type: string
+          schema:
+            $ref: '#/definitions/db.User'
+      summary: Create new users
 swagger: "2.0"

@@ -17,4 +17,9 @@ func (server *Server) RouteSetup() {
 		DocExpansion: "none",
 	}))
 	server.api.Get("/users", handlers.ListUsers)
+	server.api.Get("/users/:id", handlers.GetUser)
+	server.api.Get("/users/:username", handlers.FindUserByUsername)
+	server.api.Post("/users", handlers.CreateNewUser)
+	server.api.Put("/users/:id", handlers.UpdateUser)
+	server.api.Delete("users/:id", handlers.DeleteUser)
 }

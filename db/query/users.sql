@@ -33,6 +33,7 @@ SET
 	address = $4
 WHERE id = $1
 RETURNING *;
--- name: DeleteUser :exec
+-- name: DeleteUser :one
 DELETE FROM users
-WHERE id = $1;
+WHERE id = $1
+RETURNING *;
